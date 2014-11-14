@@ -5,11 +5,12 @@ component extends="cborm.models.VirtualEntityService" singleton {
 	property name="Logger" inject="logbox:logger:{this}";
 
 	public any function init(){
-		super.init("checkup.models.Expectation.Expectation", "Expectation.query.cache", true );
+		super.init("checkup.models.ExpectationResult.ExpectationResult", "ExpectationResult.query.cache", true );
 		return this;
 	}
 
 
+	/*
 	public boolean function save(Required Expectation) {
 		var validationResults = ValidationManager.validate( Expectation );
 		if( validationResults.hasErrors() ) {
@@ -19,5 +20,6 @@ component extends="cborm.models.VirtualEntityService" singleton {
 		super.save(Expectation);
 		return true;
 	}
+	*/
 
 }

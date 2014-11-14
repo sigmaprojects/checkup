@@ -6,7 +6,7 @@ www.coldboxframework.com | www.luismajano.com | www.ortussolutions.com
 */
 component{
 	// Application properties
-	this.name = "Checkup-2";
+	this.name = "Checkup-3";
 	this.sessionManagement = true;
 	this.applicationTimeout = createTimeSpan(0,0,0,1);
 	this.sessionTimeout = createTimeSpan(0,0,30,0);

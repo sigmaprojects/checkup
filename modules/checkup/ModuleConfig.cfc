@@ -100,8 +100,13 @@ component {
 
 		// Binder Mappings
 		// binder.map("Alias").to("#moduleMapping#.model.MyService");
+		
 		binder.map("OriginService@Checkup").to("#moduleMapping#.models.Origin.OriginService");
-
+		binder.map("DutyService@Checkup").to("#moduleMapping#.models.Duty.DutyService");
+		binder.map("DutyExpectationService@Checkup").to("#moduleMapping#.models.DutyExpectation.DutyExpectationService");
+		binder.map("ExpectationService@Checkup").to("#moduleMapping#.models.Expectation.ExpectationService");
+		binder.map("ExpectationResultService@Checkup").to("#moduleMapping#.models.ExpectationResult.ExpectationResult");
+		
 	}
 
 	/**

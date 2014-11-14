@@ -1,4 +1,4 @@
-component table="checkup_duty" persistent=true extends="checkup.models.BaseObject" accessors=true
+component table="checkup_duty" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.Duty.Duty" 
     cache=false autowire=false {
 
 	property name="id" column="duty_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
@@ -15,6 +15,29 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
 		fkcolumn="origin_id"
 		fieldtype="many-to-one"
     	missingRowIgnored="false";	
+
+	property
+		name="DutyExpectations"
+        singularName="DutyExpectation"
+        fieldType="one-to-many"
+        cfc="checkup.models.DutyExpectation.DutyExpectation"
+        fkColumn="duty_id";
+
+	/*
+	// this probably should be a composite object of Duty/Expectation
+	property name="Expectations"
+		cfc="checkup.models.Expectation.Expectation"
+		linktable="duty_expectation_jn"
+		fkcolumn="duty_id"
+		inversejoincolumn="expectation_id"
+		singularname="Expectation"
+		type="array"
+		persistent="true"
+		fieldtype="many-to-many"
+		lazy="false"
+		remotingfetch="true"
+		cascade="save-update";
+	*/
 
 	property
 		name="created"

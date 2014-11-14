@@ -3,7 +3,7 @@ component extends="cborm.models.VirtualEntityService" singleton {
 	property name="Logger" inject="logbox:logger:{this}";
 
 	public any function init(){
-		super.init("Origin", "Origin.query.cache", true );
+		super.init("checkup.models.Origin.Origin", "Origin.query.cache", true );
 		return this;
 	}
 

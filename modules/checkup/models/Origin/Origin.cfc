@@ -1,4 +1,4 @@
-component table="checkup_origin" persistent=true extends="checkup.models.BaseObject" accessors=true
+component table="checkup_origin" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.Origin.Origin"
     cache=false autowire=false {
 
 	// the origin id is the MAC address with colon notation
