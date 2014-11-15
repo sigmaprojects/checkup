@@ -1,7 +1,7 @@
 component table="checkup_expectation" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.Expectation.Expectation"
     cache=false autowire=false {
 
-	property name="id" column="expectation_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	property name="id" column="expectation_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
 
 	property
 		name="operator"
@@ -55,14 +55,11 @@ component table="checkup_expectation" persistent=true extends="checkup.models.Ba
 		if( structKeyExists(arguments,'value') && isSimpleValue(arguments.value) ) {
 			var thisId = getId();
 			if( isNull(thisId) ) {
-				var q = new Query(sql="SELECT count(1) FROM checkup_expectation ce WHERE ce.operator = :op");
+				var Existing = ORMExecuteQuery('FROM checkup.models.Expectation.Expectation e WHERE e.operator = :op',{op=arguments.value});
 			} else {
-				var q = new Query(sql="SELECT count(1) FROM checkup_expectation ce WHERE ce.operator = :op and ce.expectation_id != :id");
-				q.addParam( name="id", value = thisId, CFSQLTYPE="CF_SQL_INTEGER" );
+				var Existing = ORMExecuteQuery('FROM checkup.models.Expectation.Expectation e WHERE e.operator = :op and e.id != :id',{op=arguments.value,id=thisId});
 			}
-			q.addParam( name="op", value = arguments.value, CFSQLTYPE="CF_SQL_VARCHAR" );
-			var count = q.execute().getResult();
-			if( count.recordCount == 0 ) {
+			if( !arrayLen(Existing) ) {
 				return true;
 			}
 		}

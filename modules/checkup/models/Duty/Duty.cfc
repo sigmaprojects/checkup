@@ -1,7 +1,8 @@
 component table="checkup_duty" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.Duty.Duty" 
     cache=false autowire=false {
 
-	property name="id" column="duty_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	//property name="id" column="duty_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	property name="id" column="duty_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
 
 	property
 		name="dutyurl"
@@ -21,7 +22,8 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
         singularName="DutyExpectation"
         fieldType="one-to-many"
         cfc="checkup.models.DutyExpectation.DutyExpectation"
-        fkColumn="duty_id";
+        fkColumn="duty_id"
+        cascade="save-update";
 
 	/*
 	// this probably should be a composite object of Duty/Expectation

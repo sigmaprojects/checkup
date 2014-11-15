@@ -1,12 +1,13 @@
-component table="checkup_expectationresult" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.ExpectationResult.ExpectationResult"
+component table="checkup_result" persistent=true extends="checkup.models.BaseObject" accessors=true entityname="checkup.models.Result.Result"
     cache=false autowire=false {
 
-	property name="id" column="expectationresult_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	//property name="id" column="expectationresult_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	property name="id" column="result_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
 
 	property
-		name="Expectation"
-		cfc="checkup.models.Expectation.Expectation"
-		fkcolumn="expectation_id"
+		name="DutyExpectation"
+		cfc="checkup.models.DutyExpectation.DutyExpectation"
+		fkcolumn="dutyexpectation_id"
 		fieldtype="many-to-one"
     	missingRowIgnored="false";	
 

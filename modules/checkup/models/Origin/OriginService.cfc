@@ -1,5 +1,7 @@
 component extends="cborm.models.VirtualEntityService" singleton {
 
+	property name="ValidationManager" inject="ValidationManager@validation";
+	
 	property name="Logger" inject="logbox:logger:{this}";
 
 	public any function init(){
@@ -8,11 +10,17 @@ component extends="cborm.models.VirtualEntityService" singleton {
 	}
 
 
-	public void function save(Required Origin) {
+	public boolean function save(Required Origin) {
 		if( isNull(Origin.getLabel()) && !Len(trim(Origin.getLabel())) ) {
 			Origin.setLabel( getHostName() );
 		}
+		var validationResults = ValidationManager.validate( Origin );
+		if( validationResults.hasErrors() ) {
+			Logger.warn("Origin did not pass validation.",validationResults.getAllErrorsAsStruct());
+			return false;
+		}
 		super.save(Origin);
+		return true;
 	}
 
 

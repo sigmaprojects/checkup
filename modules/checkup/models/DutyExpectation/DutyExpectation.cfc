@@ -1,7 +1,15 @@
 component table="checkup_dutyexpectation" persistent=true extends="checkup.models.BaseObject" accessors=true  entityname="checkup.models.DutyExpectation.DutyExpectation"
     cache=false autowire=false {
 
-	property name="id" column="dutyexpectation_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	//property name="id" column="dutyexpectation_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
+	property name="id" column="dutyexpectation_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
+
+	property
+		name="Duty"
+		cfc="checkup.models.Duty.Duty"
+		fkcolumn="duty_id"
+		fieldtype="many-to-one"
+    	missingRowIgnored="false";
 
 	property
 		name="Expectation"
@@ -11,11 +19,11 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
     	missingRowIgnored="false";	
 
 	property
-		name="Duty"
-		cfc="checkup.models.Duty.Duty"
-		fkcolumn="duty_id"
+		name="Result"
+		cfc="checkup.models.Result.Result"
+		fkcolumn="result_id"
 		fieldtype="many-to-one"
-    	missingRowIgnored="false";
+    	missingRowIgnored="false";	
 
 	property
 		name="value"

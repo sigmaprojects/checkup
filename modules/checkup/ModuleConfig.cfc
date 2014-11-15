@@ -105,7 +105,8 @@ component {
 		binder.map("DutyService@Checkup").to("#moduleMapping#.models.Duty.DutyService");
 		binder.map("DutyExpectationService@Checkup").to("#moduleMapping#.models.DutyExpectation.DutyExpectationService");
 		binder.map("ExpectationService@Checkup").to("#moduleMapping#.models.Expectation.ExpectationService");
-		binder.map("ExpectationResultService@Checkup").to("#moduleMapping#.models.ExpectationResult.ExpectationResult");
+		binder.map("ResultService@Checkup").to("#moduleMapping#.models.Result.ResultService");
+		binder.map("CheckupService@Checkup").to("#moduleMapping#.models.CheckupService");
 		
 	}
 
