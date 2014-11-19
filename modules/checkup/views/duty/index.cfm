@@ -9,20 +9,20 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Origin</th>
 				<th>ID</th>
+				<th>Origin</th>
 				<th>URL</th>
 			</tr>
 		</thead>
 		<tbody>
 			<cfloop array="#rc.duties#" index="Duty">
 				<tr>
+					<td><a href="#event.buildLink(linkTo='checkup:duty.edit',queryString='id=#Duty.getId()#')#">#Duty.getId()#</a></td>
 					<td>
 						<cfif Duty.hasOrigin()>
 							#Duty.getOrigin().getLabel()# (#Duty.getOrigin().getId()#)
 						</cfif>
 					</td>
-					<td>#Duty.getId()#</td>
 					<td>#Duty.getDutyUrl()#</td>
 				</tr>
 			</cfloop>

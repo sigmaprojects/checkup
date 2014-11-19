@@ -107,6 +107,7 @@ component {
 		binder.map("ExpectationService@Checkup").to("#moduleMapping#.models.Expectation.ExpectationService");
 		binder.map("ResultService@Checkup").to("#moduleMapping#.models.Result.ResultService");
 		binder.map("CheckupService@Checkup").to("#moduleMapping#.models.CheckupService");
+		binder.map("SyncService@Checkup").to("#moduleMapping#.models.Sync.SyncService");
 		
 	}
 

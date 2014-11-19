@@ -2,7 +2,7 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
     cache=false autowire=false {
 
 	//property name="id" column="duty_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
-	property name="id" column="duty_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
+	property name="id" column="duty_id" ormtype="char(35)" type="string" fieldtype="id" generator="assigned";
 
 	property
 		name="dutyurl"
@@ -15,7 +15,7 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
 		cfc="checkup.models.Origin.Origin"
 		fkcolumn="origin_id"
 		fieldtype="many-to-one"
-    	missingRowIgnored="false";	
+    	missingRowIgnored="false";
 
 	property
 		name="DutyExpectations"
@@ -24,22 +24,6 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
         cfc="checkup.models.DutyExpectation.DutyExpectation"
         fkColumn="duty_id"
         cascade="save-update";
-
-	/*
-	// this probably should be a composite object of Duty/Expectation
-	property name="Expectations"
-		cfc="checkup.models.Expectation.Expectation"
-		linktable="duty_expectation_jn"
-		fkcolumn="duty_id"
-		inversejoincolumn="expectation_id"
-		singularname="Expectation"
-		type="array"
-		persistent="true"
-		fieldtype="many-to-many"
-		lazy="false"
-		remotingfetch="true"
-		cascade="save-update";
-	*/
 
 	property
 		name="created"
@@ -58,7 +42,8 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
 		var d = {};
 		d['id']					= getID();
 		d['dutyurl']			= getDutyURL();
-		d['origin']				= getOrigin();
+		d['origin_id']			= getOrigin().getId();
+		d['dutyexpectations']	= arrayToJson(getDutyExpectations());
 		d['created']			= dateTimeFormat(getCreated(),"yyyy-mm-dd'T'HH:nn:ss");
 		d['updated']			= dateTimeFormat(getUpdated(),"yyyy-mm-dd'T'HH:nn:ss");
 		return d;
@@ -72,13 +57,16 @@ component table="checkup_duty" persistent=true extends="checkup.models.BaseObjec
 		}
 	};
 	
+	public array function getDutyExpectationIds() {
+		return ORMExecuteQuery('SELECT de.id FROM checkup.models.DutyExpectation.DutyExpectation de WHERE de.Duty.id = :dutyId',{dutyId=getId()});
+	}
 
 	public void function preUpdate() {
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 	public void function preInsert() {
-		setCreated(DateConvert( "Local2UTC", Now() ));
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getCreated()) || !isDate(getCreated())) { setCreated(DateConvert( "Local2UTC", Now() )); }
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 
 }

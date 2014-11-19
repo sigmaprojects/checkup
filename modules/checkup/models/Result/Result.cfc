@@ -2,7 +2,7 @@ component table="checkup_result" persistent=true extends="checkup.models.BaseObj
     cache=false autowire=false {
 
 	//property name="id" column="expectationresult_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
-	property name="id" column="result_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
+	property name="id" column="result_id" ormtype="char(35)" type="string" fieldtype="id" generator="assigned";
 
 	property
 		name="DutyExpectation"
@@ -44,8 +44,10 @@ component table="checkup_result" persistent=true extends="checkup.models.BaseObj
 	public struct function toJSON() {
 		var d = {};
 		d['id']					= getID();
+		d['dutyexpectation_id']	= getDutyExpectation().getId();
 		d['failure']			= getFailure();
 		d['body']				= getBody();
+		d['statuscode']			= getStatusCode();
 		d['created']			= dateTimeFormat(getCreated(),"yyyy-mm-dd'T'HH:nn:ss");
 		d['updated']			= dateTimeFormat(getUpdated(),"yyyy-mm-dd'T'HH:nn:ss");
 		return d;
@@ -54,11 +56,11 @@ component table="checkup_result" persistent=true extends="checkup.models.BaseObj
 
 
 	public void function preUpdate() {
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 	public void function preInsert() {
-		setCreated(DateConvert( "Local2UTC", Now() ));
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getCreated()) || !isDate(getCreated())) { setCreated(DateConvert( "Local2UTC", Now() )); }
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 
 }

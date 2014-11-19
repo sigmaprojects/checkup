@@ -45,11 +45,20 @@ component table="checkup_origin" persistent=true extends="checkup.models.BaseObj
 		ormtype="timestamp"
 		type="date";
 
+	property
+		name="Duties"
+        singularName="Duty"
+        fieldType="one-to-many"
+        cfc="checkup.models.Duty.Duty"
+        fkColumn="origin_id"
+        cascade="save-update";
 
 	public struct function toJSON() {
 		var d = {};
 		d['id']					= getID();
-		d['label']				= getBody();
+		d['serviceurl']			= getServiceUrl();
+		d['label']				= getLabel();
+		d['duties']				= arrayToJSON(getDuties());
 		d['created']			= dateTimeFormat(getCreated(),"yyyy-mm-dd'T'HH:nn:ss");
 		d['updated']			= dateTimeFormat(getUpdated(),"yyyy-mm-dd'T'HH:nn:ss");
 		return d;
@@ -71,11 +80,13 @@ component table="checkup_origin" persistent=true extends="checkup.models.BaseObj
 
 
 	public void function preUpdate() {
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if( isNull(getUpdated()) || !isDate(getUpdated()) ) {
+			if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
+		}
 	}
 	public void function preInsert() {
-		setCreated(DateConvert( "Local2UTC", Now() ));
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getCreated()) || !isDate(getCreated())) { setCreated(DateConvert( "Local2UTC", Now() )); }
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 
 }

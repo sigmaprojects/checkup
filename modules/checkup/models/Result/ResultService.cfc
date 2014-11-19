@@ -16,6 +16,9 @@ component extends="cborm.models.VirtualEntityService" singleton {
 			Logger.warn("Result did not pass validation.",validationResults.getAllErrorsAsStruct());
 			return false;
 		}
+		if( isNull(Result.getId()) ) {
+			Result.setId( createUuid() );
+		}
 		super.save(Result);
 		return true;
 	}

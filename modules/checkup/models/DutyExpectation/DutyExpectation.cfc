@@ -2,7 +2,7 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
     cache=false autowire=false {
 
 	//property name="id" column="dutyexpectation_id" ormtype="integer" type="numeric" fieldtype="id" generator="native" generated="insert";
-	property name="id" column="dutyexpectation_id" ormtype="char(16)" type="string" fieldtype="id" generator="guid" generated="insert";
+	property name="id" column="dutyexpectation_id" ormtype="char(35)" type="string" fieldtype="id" generator="assigned";
 
 	property
 		name="Duty"
@@ -19,11 +19,12 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
     	missingRowIgnored="false";	
 
 	property
-		name="Result"
-		cfc="checkup.models.Result.Result"
-		fkcolumn="result_id"
-		fieldtype="many-to-one"
-    	missingRowIgnored="false";	
+		name="Results"
+        singularName="Result"
+        fieldType="one-to-many"
+        cfc="checkup.models.Result.Result"
+        fkColumn="dutyexpectation_id"
+        cascade="save-update";
 
 	property
 		name="value"
@@ -54,8 +55,11 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
 	public struct function toJSON() {
 		var d = {};
 		d['id']					= getID();
-		d['duty']				= getDuty().toJSON();
+		d['duty_id']			= getDuty().getId();
+		d['value']				= getValue();
+		d['field']				= getField();
 		d['expectation']		= getExpectation().toJSON();
+		d['results']			= arrayToJson(getResults());
 		d['created']			= dateTimeFormat(getCreated(),"yyyy-mm-dd'T'HH:nn:ss");
 		d['updated']			= dateTimeFormat(getUpdated(),"yyyy-mm-dd'T'HH:nn:ss");
 		return d;
@@ -64,11 +68,11 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
 	
 
 	public void function preUpdate() {
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 	public void function preInsert() {
-		setCreated(DateConvert( "Local2UTC", Now() ));
-		setUpdated(DateConvert( "Local2UTC", Now() ));
+		if(isNull(getCreated()) || !isDate(getCreated())) { setCreated(DateConvert( "Local2UTC", Now() )); }
+		if(isNull(getUpdated()) || !isDate(getUpdated())) { setUpdated(DateConvert( "Local2UTC", Now() )); }
 	}
 
 }

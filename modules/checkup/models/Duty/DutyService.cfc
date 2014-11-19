@@ -15,6 +15,16 @@ component extends="cborm.models.VirtualEntityService" singleton {
 			Logger.warn("Duty did not pass validation.",validationResults.getAllErrorsAsStruct());
 			return false;
 		}
+		if( isNull(Duty.getId()) ) {
+			Duty.setId( createUuid() );
+		}
+		if( Duty.hasDutyExpectation() ) {
+			for(var DutyExpectation in Duty.getDutyExpectations()) {
+				if( isNull(DutyExpectation.getId()) ) {
+					DutyExpectation.setId( createUuid() );
+				}
+			}
+		}
 		super.save(Duty);
 		return true;
 	}
