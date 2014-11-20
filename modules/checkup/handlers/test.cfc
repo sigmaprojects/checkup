@@ -6,7 +6,12 @@ component {
 	property name="ExpectationService" inject="id:ExpectationService@Checkup";
 	property name="ResultService" inject="id:ResultService@Checkup";
 	property name="CheckupService" inject="id:CheckupService@Checkup";
+	property name="SyncService" inject="id:SyncService@Checkup";
 
+	public void function testSync(event,rc,prc) {
+		SyncService.syncAll();
+		abort;
+	}
 
 	public void function testCustomId(event,rc,prc) {
 		//D86442D7-479E-466B-B6EFC3AAC49D52FB

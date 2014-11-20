@@ -85,7 +85,7 @@ component output="false"  {
 			url		= Duty.getDutyUrl()
 		);
  
-        httpService.addParam(type="header", name="X-Sent-By", value="Checkup Module");
+        httpService.addParam(type="header", name="X-Sent-By", value="ColdBox Checkup Module - Checkup");
 		var httpResult = httpService.send().getPrefix();
 		return httpResult;
 	}

@@ -59,6 +59,7 @@ component table="checkup_dutyexpectation" persistent=true extends="checkup.model
 		d['value']				= getValue();
 		d['field']				= getField();
 		d['expectation']		= getExpectation().toJSON();
+		d['expectation_id']		= getExpectation().getId();
 		d['results']			= arrayToJson(getResults());
 		d['created']			= dateTimeFormat(getCreated(),"yyyy-mm-dd'T'HH:nn:ss");
 		d['updated']			= dateTimeFormat(getUpdated(),"yyyy-mm-dd'T'HH:nn:ss");

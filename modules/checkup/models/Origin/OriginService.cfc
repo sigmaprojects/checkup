@@ -10,6 +10,19 @@ component extends="cborm.models.VirtualEntityService" singleton {
 	}
 
 
+	public array function getForSync() {
+		var objOrigins = list(asQuery=false);
+		var jsonArray = [];
+		var Origins = [];
+		Origins.addAll(objOrigins);
+		// haha this is probably a bad idea to thread it this way
+		Origins.each(function(Origin) {
+			arrayAppend(jsonArray,Origin.toJson());
+		},true);
+		return jsonArray;
+	}
+
+
 	public boolean function save(Required Origin) {
 		if( isNull(Origin.getLabel()) && !Len(trim(Origin.getLabel())) ) {
 			Origin.setLabel( getHostName() );
